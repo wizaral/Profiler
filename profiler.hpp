@@ -1,22 +1,20 @@
 #pragma once
-
 #include <chrono>
 #include <iostream>
 #include <string>
 
-#define UNIQ_ID_IMPL(line_line) _A_LOCAL_VAR_##line_line
-#define UNIQ_ID(line_line) UNIQ_ID_IMPL(line_line)
+namespace al {
 
-class LogDuration {
+class Profiler {
     std::chrono::steady_clock::time_point m_start;
     std::string m_message;
 
 public:
-    explicit LogDuration(const std::string &msg = {})
+    explicit Profiler(const std::string &msg = {})
     : m_start(std::chrono::steady_clock::now())
     , m_message(msg) {}
 
-    ~LogDuration() {
+    ~Profiler() {
         using namespace std::chrono;
         auto finish = steady_clock::now();
         auto duration = finish - m_start;
@@ -27,4 +25,8 @@ public:
     }
 };
 
-#define LOG_DURATION(message) LogDuration UNIQ_ID(__LINE__){message};
+} // namespace al
+
+#define __UNIQ_ID_IMPL__(line_line) _A_LOCAL_VAR_##line_line
+#define __UNIQ_ID__(line_line) __UNIQ_ID_IMPL__(line_line)
+#define LOG_DURATION(message) al::Profiler __UNIQ_ID__(__LINE__){message}
