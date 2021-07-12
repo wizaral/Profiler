@@ -19,9 +19,10 @@ public:
         auto finish = steady_clock::now();
         auto duration = finish - m_start;
 
-        std::cerr << m_message << ": "
-            << duration_cast<milliseconds>(duration).count()
-            << " ms" << std::endl;
+        if (m_message.empty() == false) {
+            std::cerr << m_message << ": ";
+        }
+        std::cerr << duration_cast<milliseconds>(duration).count() << " ms" << std::endl;
     }
 };
 
