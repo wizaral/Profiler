@@ -31,3 +31,4 @@ public:
 #define __UNIQ_ID_IMPL__(line_line) _A_LOCAL_VAR_##line_line
 #define __UNIQ_ID__(line_line) __UNIQ_ID_IMPL__(line_line)
 #define LOG_DURATION(message) al::Profiler __UNIQ_ID__(__LINE__){message}
+#define LOG_DURATION_TEXT(text) al::Profiler __UNIQ_ID__(__LINE__){#text}
